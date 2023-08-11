@@ -1,7 +1,21 @@
+import { useMemo, useState } from 'react'
 import { getBooks } from '../services/getBooks'
+import { Book } from '../types'
 
 export default function Home() {
-  const books = getBooks
+  const books: Book[] = getBooks
+
+  const genreInit: Book['genre'][] = Array.from(
+    new Set(books.map((book) => book.genre))
+  )
+  const [genreSelected, setGenreSelected] = useState<Book['genre']>('')
+
+  const matches = useMemo(() => {
+    if (genreSelected.length === 0) return books
+
+    return books.filter((book) => book.genre === genreSelected)
+  }, [genreSelected])
+
   return (
     <>
       <header className="m-auto w-full max-w-7xl p-4">
@@ -9,15 +23,18 @@ export default function Home() {
       </header>
       <main>
         <div className="m-auto max-w-7xl pb-4">
-          <select name="" id="">
-            <option value="Todos">Todos</option>
-            <option value="Zombies">Zombies</option>
-            <option value="Fantasía">Fantasía</option>
+          <select onChange={(evt) => setGenreSelected(evt.target.value)}>
+            <option value="">Todos</option>
+            {genreInit.map((genre) => (
+              <option key={genre} value={genre}>
+                {genre}
+              </option>
+            ))}
           </select>
         </div>
         <section className="m-auto grid max-w-7xl grid-cols-6  gap-5">
           <article className="col-span-4 grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-8">
-            {books.map((book) => (
+            {matches.map((book) => (
               <div key={book.ISBN}>
                 <picture>
                   <img

@@ -3,3 +3,8 @@
   color: CanvasText;
   color-scheme: dark;
 }
+
+html,
+body {
+  scrollbar-gutter: stable;
+}

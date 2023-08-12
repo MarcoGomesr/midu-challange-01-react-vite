@@ -1,4 +1,4 @@
-import data from '../mocks/books.json'
+import data from '../data/books.json'
 import { Book } from '../types.d'
 
 export const getBooks: Book[] = data.library.map((data) => {

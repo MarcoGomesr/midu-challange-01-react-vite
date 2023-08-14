@@ -3,6 +3,8 @@ import { getBooks } from '../services/getBooks'
 import { Book } from '../types'
 import Footer from '../components/Footer'
 import Header from '../components/Header'
+import Range from '../components/Range'
+import Select from '../components/Select'
 
 export default function Home() {
   const books: Book[] = getBooks
@@ -12,23 +14,29 @@ export default function Home() {
   )
   const [genreSelected, setGenreSelected] = useState<Book['genre']>('')
   const [readList, setReadList] = useState<Book[]>([])
-  const [pagesFilter, setPagesFilter] = useState<Book['pages']>()
+  const [pagesFilter, setPagesFilter] = useState<Book['pages']>(0)
+  const [filteredMatches, setFilteredMatches] = useState<Book[]>([])
 
   const handleBookClick = (bookISBN: Book['ISBN']) => {
     const draft = readList.find((book) => book.ISBN === bookISBN)
       ? readList.filter((book) => book.ISBN !== bookISBN)
-      : [...readList, matches.find((book) => book.ISBN === bookISBN) ?? []]
+      : [...readList, matches.find((book) => book.ISBN === bookISBN)!]
 
     setReadList(draft)
   }
 
-  useEffect(() => {}, [readList])
-
   const matches = useMemo(() => {
     if (genreSelected.length === 0) return books
-
     return books.filter((book) => book.genre === genreSelected)
   }, [genreSelected])
+
+  const updatedFilteredMatches = useMemo(() => {
+    return matches.filter((book) => book.pages <= pagesFilter)
+  }, [matches, pagesFilter])
+
+  useEffect(() => {
+    setFilteredMatches(updatedFilteredMatches)
+  }, [matches, pagesFilter])
 
   const maxPages = useMemo(() => {
     const pages = matches.map((book) => book.pages)
@@ -36,6 +44,7 @@ export default function Home() {
     const pageCount = pages.reduce((prevPage, page) => {
       return page > prevPage ? page : prevPage
     })
+
     setPagesFilter(pageCount)
 
     return pageCount
@@ -53,29 +62,17 @@ export default function Home() {
       <Header />
       <main>
         <div className="m-auto flex max-w-7xl flex-row items-start justify-start gap-5 pb-4 align-top">
-          <select onChange={(evt) => setGenreSelected(evt.target.value)}>
-            <option value="">Todos</option>
-            {genreInit.map((genre) => (
-              <option key={genre} value={genre}>
-                {genre}
-              </option>
-            ))}
-          </select>
-          <div>
-            <input
-              type="range"
-              className="ml-5"
-              min={minPages}
-              max={maxPages}
-              value={pagesFilter}
-              onChange={(e) => setPagesFilter(parseInt(e.target.value))}
-            />
-            <p className="text-xs">Filtrar por paginas ({pagesFilter})</p>
-          </div>
+          <Select genreInit={genreInit} onSelect={setGenreSelected} />
+          <Range
+            minPages={minPages}
+            maxPages={maxPages}
+            setPagesFilter={setPagesFilter}
+            pagesFilter={pagesFilter}
+          />
         </div>
         <section className="m-auto grid max-w-7xl grid-cols-6  gap-5">
           <article className="col-span-6 grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-8 md:col-span-4">
-            {matches.map((book) => (
+            {filteredMatches.map((book) => (
               <div key={book.ISBN}>
                 <picture>
                   <img
@@ -91,6 +88,9 @@ export default function Home() {
                   </header>
                   <p className="text-sm italic text-gray-600">
                     {book.synopsis}
+                  </p>
+                  <p className="mt-3 text-sm text-gray-400">
+                    páginas: {book.pages}
                   </p>
                 </div>
               </div>

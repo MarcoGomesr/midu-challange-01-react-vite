@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
 import { getBooks } from '../services/getBooks'
 import { Book } from '../types'
-import Footer from '../components/Footer'
-import Header from '../components/Header'
-import Range from '../components/Range'
-import Select from '../components/Select'
+import Footer from '../components/footer'
+import Header from '../components/header'
+import Range from '../components/range'
+import Select from '../components/select'
 
 export default function Home() {
   const books: Book[] = getBooks

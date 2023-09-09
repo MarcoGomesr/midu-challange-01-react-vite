@@ -9,8 +9,6 @@ export default function Home() {
   const { filterBooks } = useFilters()
   const filteredBooks = filterBooks(getBooks)
 
-  console.log(filteredBooks)
-
   // const genreInit: Book['genre'][] = Array.from(
   //   new Set(books.map((book) => book.genre))
   // )

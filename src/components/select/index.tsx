@@ -1,13 +1,16 @@
 import { ChangeEvent, useId } from 'react'
+import { getBooks } from '../../services/getBooks'
 import { Book } from '../../types'
 import { useFilters } from '../../utils/hooks/useFilters'
 
-interface Props {
-  genreInit: Book['genre'][]
-}
-export default function Select({ genreInit }: Props) {
-  const genreId = useId()
+export default function Select() {
+  const books = getBooks
 
+  const genreInit: Book['genre'][] = Array.from(
+    new Set(books.map((book) => book.genre))
+  )
+
+  const genreId = useId()
   const { setFilters } = useFilters()
 
   const handleChangeGenre = (event: ChangeEvent<HTMLSelectElement>) => {

@@ -73,7 +73,10 @@ export default function Home() {
         <section className="m-auto grid max-w-7xl grid-cols-6  gap-5">
           <article className="col-span-6 grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-8 md:col-span-4">
             {filteredMatches.map((book) => (
-              <div key={book.ISBN}>
+              <div
+                key={book.ISBN}
+                className="block transform transition-all hover:-translate-y-2"
+              >
                 <picture>
                   <img
                     src={book.cover}

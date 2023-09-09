@@ -1,4 +1,4 @@
-# Challange 01 de midudev - [Aplicación de Lista de Libros](https://pruebas-tecnicas-jade.vercel.app/)
+# Challange 01 de midudev - [Aplicación de Lista de Libros](https://react-vite-beta.vercel.app/)
 
 ## Configurar proyecto
 
@@ -37,7 +37,7 @@ Aplicación web que permita a los usuarios ver los libros disponibles y crear un
 
 - [x] Filtrado de Libros por Género: Los usuarios deben poder filtrar la lista de libros disponibles por género, y se mostrará un contador con el número de libros disponibles, el número de libros en la lista de lectura y el número de libros disponibles en el género seleccionado.
 
-- [ ] Sincronización de Estado: Debe haber una sincronización del estado global que refleje el número de libros en la lista de lectura y el número de libros todavía disponibles. Si un libro se mueve de la lista de disponibles a la lista de lectura, el recuento de ambos debe actualizarse en consecuencia.
+- [x] Sincronización de Estado: Debe haber una sincronización del estado global que refleje el número de libros en la lista de lectura y el número de libros todavía disponibles. Si un libro se mueve de la lista de disponibles a la lista de lectura, el recuento de ambos debe actualizarse en consecuencia.
 
 - [ ] Persistencia de Datos: La aplicación debe persistir los datos de la lista de lectura en el almacenamiento local del navegador. Al recargar la página, la lista de lectura debe mantenerse.
 
@@ -45,7 +45,7 @@ Aplicación web que permita a los usuarios ver los libros disponibles y crear un
 
 - [x] Despliegue: La aplicación debe estar desplegada en algún servicio de hosting gratuito (Netlify, Vercel, Firebase, etc) y debe ser accesible a través de una URL pública. Indica la URL en el README.
 
-- [ ] Test: La aplicación debe tener AL MENOS un test. Haz el test que consideres más importante para tu aplicación.
+- [x] Test: La aplicación debe tener AL MENOS un test. Haz el test que consideres más importante para tu aplicación.
 
 ### Consejos sobre el código
 

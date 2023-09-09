@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
 import { getBooks } from '../services/getBooks'
 import { Book } from '../types'
-import Footer from '../components/footer'
-import Header from '../components/header'
+import Footer from '../layout/footer'
+import Header from '../layout/header'
 import Range from '../components/range'
 import Select from '../components/select'
 

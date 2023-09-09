@@ -1,78 +1,74 @@
-import { useEffect, useMemo, useState } from 'react'
-import { getBooks } from '../services/getBooks'
-import { Book } from '../types'
+import Filters from '../components/filters'
 import Footer from '../layout/footer'
 import Header from '../layout/header'
-import Range from '../components/range'
-import Select from '../components/select'
+import { getBooks } from '../services/getBooks'
+import { useFilters } from '../utils/hooks/useFilters'
 
 export default function Home() {
-  const books: Book[] = getBooks
+  const { filterBooks } = useFilters()
+  const filteredBooks = filterBooks(getBooks)
 
-  const genreInit: Book['genre'][] = Array.from(
-    new Set(books.map((book) => book.genre))
-  )
-  const [genreSelected, setGenreSelected] = useState<Book['genre']>('')
-  const [readList, setReadList] = useState<Book[]>([])
-  const [pagesFilter, setPagesFilter] = useState<Book['pages']>(0)
-  const [filteredMatches, setFilteredMatches] = useState<Book[]>([])
+  console.log(filteredBooks)
 
-  const handleBookClick = (bookISBN: Book['ISBN']) => {
-    const draft = readList.find((book) => book.ISBN === bookISBN)
-      ? readList.filter((book) => book.ISBN !== bookISBN)
-      : [...readList, matches.find((book) => book.ISBN === bookISBN)!]
+  // const genreInit: Book['genre'][] = Array.from(
+  //   new Set(books.map((book) => book.genre))
+  // )
+  // const [genreSelected, setGenreSelected] = useState<Book['genre']>('')
+  // const [readList, setReadList] = useState<Book[]>([])
+  // const [pagesFilter, setPagesFilter] = useState<Book['pages']>(0)
+  // const [filteredMatches, setFilteredMatches] = useState<Book[]>([])
 
-    setReadList(draft)
-  }
+  // const handleBookClick = (bookISBN: Book['ISBN']) => {
+  //   console.log(filters)
+  //   const draft = readList.find((book) => book.ISBN === bookISBN)
+  //     ? readList.filter((book) => book.ISBN !== bookISBN)
+  //     : [...readList, matches.find((book) => book.ISBN === bookISBN)!]
 
-  const matches = useMemo(() => {
-    if (genreSelected.length === 0) return books
-    return books.filter((book) => book.genre === genreSelected)
-  }, [genreSelected])
+  //   setReadList(draft)
+  // }
 
-  const updatedFilteredMatches = useMemo(() => {
-    return matches.filter((book) => book.pages <= pagesFilter)
-  }, [matches, pagesFilter])
+  // const matches = useMemo(() => {
+  //   if (genreSelected.length === 0) return books
+  //   return books.filter((book) => book.genre === genreSelected)
+  // }, [genreSelected])
 
-  useEffect(() => {
-    setFilteredMatches(updatedFilteredMatches)
-  }, [matches, pagesFilter])
+  // const updatedFilteredMatches = useMemo(() => {
+  //   return matches.filter((book) => book.pages <= pagesFilter)
+  // }, [matches, pagesFilter])
 
-  const maxPages = useMemo(() => {
-    const pages = matches.map((book) => book.pages)
+  // useEffect(() => {
+  //   setFilteredMatches(updatedFilteredMatches)
+  // }, [matches, pagesFilter])
 
-    const pageCount = pages.reduce((prevPage, page) => {
-      return page > prevPage ? page : prevPage
-    })
+  // const maxPages = useMemo(() => {
+  //   const pages = matches.map((book) => book.pages)
 
-    setPagesFilter(pageCount)
+  //   const pageCount = pages.reduce((prevPage, page) => {
+  //     return page > prevPage ? page : prevPage
+  //   })
 
-    return pageCount
-  }, [matches])
+  //   setPagesFilter(pageCount)
 
-  const minPages = useMemo(() => {
-    const pages = matches.map((book) => book.pages)
-    return pages.reduce((prevPage, page) => {
-      return page < prevPage ? page : prevPage
-    })
-  }, [matches])
+  //   return pageCount
+  // }, [matches])
+
+  // const minPages = useMemo(() => {
+  //   const pages = matches.map((book) => book.pages)
+  //   return pages.reduce((prevPage, page) => {
+  //     return page < prevPage ? page : prevPage
+  //   })
+  // }, [matches])
 
   return (
     <>
       <Header />
       <main>
         <div className="m-auto flex max-w-7xl flex-row items-start justify-start gap-5 pb-4 align-top">
-          <Select genreInit={genreInit} onSelect={setGenreSelected} />
-          <Range
-            minPages={minPages}
-            maxPages={maxPages}
-            setPagesFilter={setPagesFilter}
-            pagesFilter={pagesFilter}
-          />
+          <Filters books={filterBooks} />
         </div>
         <section className="m-auto grid max-w-7xl grid-cols-6  gap-5">
           <article className="col-span-6 grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-8 md:col-span-4">
-            {filteredMatches.map((book) => (
+            {filteredBooks.map((book) => (
               <div
                 key={book.ISBN}
                 className="block transform transition-all hover:-translate-y-2"

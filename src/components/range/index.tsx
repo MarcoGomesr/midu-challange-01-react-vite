@@ -1,38 +1,36 @@
-import { useId } from 'react'
+import { ChangeEvent, useId } from 'react'
+import { useFilters } from '../../utils/hooks/useFilters'
 
-interface Props {
-  minPages: number
-  maxPages: number
-  setPagesFilter: (value: number) => void
-  pagesFilter: number
-}
+export default function Range() {
+  const { filters, setFilters } = useFilters()
+  const minPagesFilterId = useId()
 
-export default function Range({
-  minPages,
-  maxPages,
-  setPagesFilter,
-  pagesFilter
-}: Props) {
-  const labelRange = useId()
+  const handleChangeMinPages = (event: ChangeEvent<HTMLInputElement>) => {
+    setFilters((prevState) => ({
+      ...prevState,
+      minPages: event.target.value
+    }))
+  }
+
   return (
     <div>
       <div className="flex flex-col">
         <label
-          htmlFor={labelRange}
+          htmlFor={minPagesFilterId}
           className="mb-1 text-sm font-medium text-white"
         >
           Numero de páginas
         </label>
         <input
           type="range"
-          id={labelRange}
+          id={minPagesFilterId}
           className="ml-5"
-          min={minPages}
-          max={maxPages}
-          value={pagesFilter}
-          onChange={(e) => setPagesFilter(parseInt(e.target.value))}
+          min="0"
+          max="2000"
+          onChange={handleChangeMinPages}
+          value={filters.minPages}
         />
-        <p className="text-sm text-gray-400">Máximo: {pagesFilter}</p>
+        <p className="text-sm text-gray-400">Máximo: {filters.minPages}</p>
       </div>
     </div>
   )

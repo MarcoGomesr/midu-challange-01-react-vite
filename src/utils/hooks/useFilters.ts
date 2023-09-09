@@ -7,7 +7,12 @@ export function useFilters() {
   const { filters, setFilters } = useContext(FilterContext)
 
   const filterBooks = (books: Book[]) => {
-    return books.filter((book) => book.pages <= filters.minPages)
+    return books.filter((book) => {
+      return (
+        book.pages <= filters.minPages &&
+        (filters.genres === '' || filters.genres === book.genre)
+      )
+    })
   }
 
   return {

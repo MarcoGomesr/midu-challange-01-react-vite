@@ -11,3 +11,8 @@ export interface Book {
     otherBooks: string[]
   }
 }
+
+interface FiltersState {
+  genres: string
+  minPages: number
+}

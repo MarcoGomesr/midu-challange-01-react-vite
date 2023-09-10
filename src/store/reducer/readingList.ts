@@ -3,7 +3,6 @@ import { READING_LIST_ACTION_TYPES } from '../../utils/consts/readingList'
 export const booksInitialState =
   JSON.parse(window.localStorage.getItem('readingList')!) || []
 
-// update localStorage with state for cart
 export const updateLocalStorage = (state) => {
   window.localStorage.setItem('readingList', JSON.stringify(state))
 }
@@ -33,6 +32,9 @@ export const booksReducer = (state, action) => {
 
       updateLocalStorage(newState)
       return newState
+    }
+    case READING_LIST_ACTION_TYPES.UPDATE_READING_LIST: {
+      return actionPayload
     }
 
     case READING_LIST_ACTION_TYPES.REMOVE_FROM_READING_LIST: {

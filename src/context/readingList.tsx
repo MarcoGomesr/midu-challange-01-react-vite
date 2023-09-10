@@ -1,27 +1,56 @@
-import { ReactNode, createContext } from 'react'
+import { ReactNode, createContext, useReducer } from 'react'
+import { booksInitialState, booksReducer } from '../store/reducer/readingList'
+import { READING_LIST_ACTION_TYPES } from '../utils/consts/readingList'
 
 export const ReadingListContext = createContext()
 
-// const initialState = window.localStorage.getItem('ReadingList') || []
+function useReadingListReducer() {
+  const [state, dispatch] = useReducer(booksReducer, booksInitialState)
 
-function useReadingListReducer (){
+  const addToReadingList = (book) =>
+    dispatch({
+      type: READING_LIST_ACTION_TYPES.ADD_TO_READING_LIST,
+      payload: book
+    })
 
-  return {state, addToList, removeFromList, removeFromList, clearList, booksinitialState }
+  const removeFromReadingList = (book) =>
+    dispatch({
+      type: READING_LIST_ACTION_TYPES.REMOVE_FROM_READING_LIST,
+      payload: book
+    })
+
+  const clearReadingList = () =>
+    dispatch({
+      type: READING_LIST_ACTION_TYPES.CLEAR_READING_LIST
+    })
+
+  return {
+    state,
+    addToReadingList,
+    removeFromReadingList,
+    clearReadingList,
+    booksInitialState
+  }
 }
 
-export default function readingListProvider({ children }: { children: ReactNode}) {
-
-  const { state, addToList, removeFromList, removeFromList, clearList } = useReadingListReducer()
-
+export default function ReadingListProvider({
+  children
+}: {
+  children: ReactNode
+}) {
+  const { state, addToReadingList, removeFromReadingList, clearReadingList } =
+    useReadingListReducer()
 
   return (
-    <ReadingListContext.Provider value={{
-      books,
-      addToList,
-      removeFromList
-      clearList
-    }}>
-     { children} 
+    <ReadingListContext.Provider
+      value={{
+        readingListBooks: state,
+        addToReadingList,
+        removeFromReadingList,
+        clearReadingList
+      }}
+    >
+      {children}
     </ReadingListContext.Provider>
   )
 }

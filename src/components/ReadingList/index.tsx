@@ -1,14 +1,17 @@
+import useReadingList from '../../utils/hooks/useReadingList'
+
 export default function ReadingList() {
+  const { readingListBooks, removeFromReadingList } = useReadingList()
   return (
     <aside className="col-span-2 hidden content-start gap-4 rounded-md bg-gray-800 p-5 md:block">
       <header>
         <h2 className="text-2xl">Lista de lectura</h2>
         <p className="text-gray-600">
-          {readList.length} en la lista de lectura
+          {readingListBooks.length} en la lista de lectura
         </p>
       </header>
       <div className="grid grid-cols-2  gap-4 ">
-        {readList.map((book) => (
+        {readingListBooks.map((book) => (
           <figure className="group relative" key={book.ISBN}>
             <img
               key={book.ISBN}
@@ -17,7 +20,7 @@ export default function ReadingList() {
               className="aspect-[9/14] rounded-md object-cover shadow-md"
             />
             <figcaption className="absolute right-1 top-1 hidden cursor-pointer group-hover:block">
-              <button onClick={() => handleBookClick(book.ISBN)}>
+              <button onClick={() => removeFromReadingList(book)}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"

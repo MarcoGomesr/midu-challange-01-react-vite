@@ -1,5 +1,6 @@
 import Books from '../components/Books'
 import Filters from '../components/Filters'
+import ReadingListProvider from '../context/readingList'
 import Footer from '../layout/footer'
 import Header from '../layout/header'
 import { getBooks } from '../services/getBooks'
@@ -63,7 +64,9 @@ export default function Home() {
       <Header />
       <main>
         <Filters />
-        <Books books={filteredBooks} />
+        <ReadingListProvider>
+          <Books books={filteredBooks} />
+        </ReadingListProvider>
       </main>
       <Footer />
     </>

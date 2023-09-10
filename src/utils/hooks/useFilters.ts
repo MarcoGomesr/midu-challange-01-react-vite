@@ -1,9 +1,9 @@
 import { useContext } from 'react'
 import { FilterContext } from '../../context/filters'
 
-import { Book } from '../../types'
+import { type Book } from '../../types'
 
-export function useFilters() {
+export function useFilters () {
   const { filters, setFilters } = useContext(FilterContext)
 
   const filterBooks = (books: Book[]) => {

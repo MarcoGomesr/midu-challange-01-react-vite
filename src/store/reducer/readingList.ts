@@ -1,13 +1,20 @@
+import { type Book } from '../../types'
 import { READING_LIST_ACTION_TYPES } from '../../utils/consts/readingList'
+
+type ReadingListActionTypes =
+  | { type: 'ADD_TO_READING_LIST', payload: Book }
+  | { type: 'REMOVE_FROM_READING_LIST', payload: { ISBN: Book['ISBN'] } }
+  | { type: 'CLEAR_READING_LIST' }
+  | { type: 'UPDATE_READING_LIST', payload: Book[] }
 
 export const booksInitialState =
   JSON.parse(window.localStorage.getItem('readingList')!) || []
 
-export const updateLocalStorage = (state) => {
+export const updateLocalStorage = (state: Book[]) => {
   window.localStorage.setItem('readingList', JSON.stringify(state))
 }
 
-export const booksReducer = (state, action) => {
+export const booksReducer = (state: Book[], action: ReadingListActionTypes) => {
   const { type: actionType, payload: actionPayload } = action
 
   switch (actionType) {
@@ -34,11 +41,11 @@ export const booksReducer = (state, action) => {
       return newState
     }
     case READING_LIST_ACTION_TYPES.UPDATE_READING_LIST: {
-      return actionPayload
+      return actionPayload as Book[]
     }
 
     case READING_LIST_ACTION_TYPES.REMOVE_FROM_READING_LIST: {
-      const { ISBN } = actionPayload
+      const { ISBN } = actionPayload as { ISBN: Book['ISBN'] }
 
       const newState = state.filter((item) => item.ISBN !== ISBN)
       updateLocalStorage(newState)

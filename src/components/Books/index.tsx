@@ -1,4 +1,4 @@
-import { Book } from '../../types'
+import { type Book } from '../../types'
 import useReadingList from '../../utils/hooks/useReadingList'
 import ReadingList from '../ReadingList'
 
@@ -6,7 +6,7 @@ interface Props {
   books: Book[]
 }
 
-export default function Books({ books }: Props) {
+export default function Books ({ books }: Props) {
   const { readingListBooks, addToReadingList, removeFromReadingList } =
     useReadingList()
 

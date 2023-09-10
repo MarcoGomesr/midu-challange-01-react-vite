@@ -10,7 +10,7 @@ export default function Books ({ books }: Props) {
   const { readingListBooks, addToReadingList, removeFromReadingList } =
     useReadingList()
 
-  const checkBookisInReadingList = (book) => {
+  const checkBookisInReadingList = (book: Book) => {
     return readingListBooks.some((item) => item.ISBN === book.ISBN)
   }
 

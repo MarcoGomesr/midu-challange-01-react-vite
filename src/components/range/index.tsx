@@ -1,7 +1,7 @@
-import { ChangeEvent, useId } from 'react'
+import { useId, type ChangeEvent } from 'react'
 import { useFilters } from '../../utils/hooks/useFilters'
 
-export default function Range() {
+export default function Range () {
   const { filters, setFilters } = useFilters()
   const minPagesFilterId = useId()
 

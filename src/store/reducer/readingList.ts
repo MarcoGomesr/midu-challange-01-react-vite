@@ -8,7 +8,7 @@ type ReadingListActionTypes =
   | { type: 'UPDATE_READING_LIST', payload: Book[] }
 
 export const booksInitialState =
-  JSON.parse(window.localStorage.getItem('readingList')!) || []
+  JSON.parse(window.localStorage.getItem('readingList') ?? '[]')
 
 export const updateLocalStorage = (state: Book[]) => {
   window.localStorage.setItem('readingList', JSON.stringify(state))

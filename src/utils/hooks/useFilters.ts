@@ -1,6 +1,5 @@
 import { useContext } from 'react'
 import { FilterContext } from '../../context/filters'
-
 import { type Book, type FiltersState } from '../../types'
 
 interface FilterContextType {
@@ -9,7 +8,7 @@ interface FilterContextType {
 }
 
 export function useFilters () {
-  const { filters, setFilters } = useContext<FilterContextType>(FilterContext)
+  const { filters, setFilters } = useContext<FilterContextType | undefined>(FilterContext)
 
   const filterBooks = (books: Book[]) => {
     return books.filter((book) => {

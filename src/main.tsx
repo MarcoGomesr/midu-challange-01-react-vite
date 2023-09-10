@@ -3,7 +3,7 @@ import App from './App.tsx'
 import { FilterProvider } from './context/filters.tsx'
 import './index.css'
 
-const root = document.getElementById('root')
+const root = document.getElementById('root')!
 
 createRoot(root).render(
   <FilterProvider>

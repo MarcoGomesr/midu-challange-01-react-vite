@@ -6,9 +6,9 @@ export default function Range () {
   const minPagesFilterId = useId()
 
   const handleChangeMinPages = (event: ChangeEvent<HTMLInputElement>) => {
-    setFilters((prevState) => ({
-      ...prevState,
-      minPages: event.target.value
+    setFilters(({
+      ...filters,
+      minPages: parseInt(event.target.value, 10) // Parse the value to an integer
     }))
   }
 

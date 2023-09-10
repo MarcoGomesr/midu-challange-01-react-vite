@@ -4,7 +4,7 @@ import { READING_LIST_ACTION_TYPES } from '../../utils/consts/readingList'
 type ReadingListActionTypes =
   | { type: 'ADD_TO_READING_LIST', payload: Book }
   | { type: 'REMOVE_FROM_READING_LIST', payload: { ISBN: Book['ISBN'] } }
-  | { type: 'CLEAR_READING_LIST' }
+  | { type: 'CLEAR_READING_LIST', payload: null }
   | { type: 'UPDATE_READING_LIST', payload: Book[] }
 
 export const booksInitialState =
@@ -19,7 +19,7 @@ export const booksReducer = (state: Book[], action: ReadingListActionTypes) => {
 
   switch (actionType) {
     case READING_LIST_ACTION_TYPES.ADD_TO_READING_LIST: {
-      const { ISBN } = actionPayload
+      const { ISBN } = actionPayload as { ISBN: Book['ISBN'] }
 
       const productInCartIndex = state.findIndex((item) => item.ISBN === ISBN)
 
